@@ -1,0 +1,1 @@
+users = {"username": [], "password": []} # Dicionário que futuramente será carregado do arquivo em json
