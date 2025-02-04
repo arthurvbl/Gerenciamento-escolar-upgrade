@@ -13,7 +13,7 @@ def login(permission):
             password = request.forms.get('password')
             
             if username in users and users[username] == password:
-                return f"Bem vindo, {username}!"
+                return redirect('/menu')
             else:
                 error = "Usuário ou senha incorretos."
                 
@@ -23,8 +23,10 @@ def login(permission):
             username = request.forms.get('username')
             password = request.forms.get('password')
             
-            if username in adms and adms[username] == password:
-                return f"Bem vindo, {username}!"
+            if username in adms["username"]:
+                indice = adms["username"].index(username)
+                if adms["password"][indice] == password:
+                    return redirect('/menu')
             else:
                 error = "Usuário ou senha incorretos."
             
