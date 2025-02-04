@@ -1,5 +1,6 @@
 from bottle import route, request, template, redirect
 from app.models.login_register_model import users, adms
+from app.controllers.menu_controller import menu
 
 @route('/<permission>/Login', method=['GET','POST'])
 def login(permission):
@@ -12,8 +13,10 @@ def login(permission):
             username = request.forms.get('username')
             password = request.forms.get('password')
             
-            if username in users and users[username] == password:
-                return redirect('/menu')
+            if username in users["username"]:
+                indice = users["username"].index(username)
+                if users["password"][indice] == password:
+                    return redirect('/menu')
             else:
                 error = "Usuário ou senha incorretos."
                 

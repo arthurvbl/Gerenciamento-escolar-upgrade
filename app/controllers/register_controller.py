@@ -13,13 +13,13 @@ def register(permission):
             username = request.forms.get('username')
             password = request.forms.get('password')
             
-            if username in users:
+            if username in users["username"]:
                 error = "Usuário existente."
             else:
                 users["username"].append(username)
                 users["password"].append(password)
                 success = "Usuário registrado!"
-                redirect('/Adm/Login')
+                redirect('/User/Login')
                 
     else:
         
@@ -27,7 +27,7 @@ def register(permission):
             username = request.forms.get('username')
             password = request.forms.get('password')
             
-            if username in adms:
+            if username in adms["username"]:
                 error = "Usuário existente."
             else:
                 adms["username"].append(username)
