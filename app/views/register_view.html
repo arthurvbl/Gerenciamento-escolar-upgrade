@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel="stylesheet" href="./styles/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo, insira os dados para se registrar!</h1>
+
+        % if error:
+            <p class="error">{{ error }}</p>
+        % end
+        % if success:
+            <p class="success">{{ success }}</p>
+        % end
+
+        <form method="post">
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" name="username" required> 
+
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required> 
+
+            <input type="submit" value="Registrar">
+        </form>
+
+        <p>Deseja <a href='/{{ permission }}/Login'>entrar</a> em uma conta já existente?</p>
+    </div>
+</body>
+</html>

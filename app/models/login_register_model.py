@@ -1,0 +1,2 @@
+users = {"username": [], "password": []} # Dicionário de usuários que futuramente será carregado do arquivo em json
+adms = {"username": [], "password": []}  # Dicionário de administradores que futuramente será carregado do arquivo em json
