@@ -1,16 +1,9 @@
 import validacoes                                                  
-import pickle                                                      
-from classes import Aluno, Professor                               
+import json                                                      
+from classes import Aluno, Professor       
+from bottle import route                        
 
-def menu():                                                                 #Menu de opções
-    print("""Escolha uma das opções:                                    
-1: Matricular
-2: Remover uma matricula
-3: Listar matriculas
-4: Salvar dados
-5: Sair
-""")
-
+@route('/matricular', method=['GET','POST'])
 def matricula(escolha, lista_prof, lista_alunos, lista_mat):               #Função de matrícula
     
     nome = input("Nome: ")
@@ -41,7 +34,8 @@ def matricula(escolha, lista_prof, lista_alunos, lista_mat):               #Fun�
         print("----------- ALUNO MATRICULADO -----------")
         print(aluno)
         input("Pressione qualquer telca para prosseguir")
-        
+
+@route('/listar')        
 def lista_matriculas(escolha, lista_prof, lista_alunos):                   #Função que lista as matrículas
     if escolha == "professor":
         if not lista_prof:
@@ -55,7 +49,8 @@ def lista_matriculas(escolha, lista_prof, lista_alunos):                   #Fun�
         else:
             for alunos in lista_alunos:
                 print(alunos)
-                
+
+@route('/remover')                
 def remove_matriculas(escolha, lista_prof, lista_alunos, lista_mat):       #Função que exclui uma matrícula específica
         matricula = input("Insira a matrícula que deseja excluir: ")
         if escolha == 'professor':
@@ -75,54 +70,31 @@ def remove_matriculas(escolha, lista_prof, lista_alunos, lista_mat):       #Fun�
                 
         print(f"{matricula} não é um {escolha}.")
         
-def salva_dados(lista_prof, lista_alunos, lista_mat, arq="data.pkl"):     #Função usada para registrar os dados em binário (pickle)
-    try:
-        with open(arq, "wb") as f:
-            pickle.dump((lista_prof, lista_alunos, lista_mat), f)
-        print("Dados salvos!")
-    except Exception:
-        print("Erro ao salvar os dados!")   
-
-def main():
-    
-    try:                                                                  #Carrega os dados do arquivo "data.pkl" se ele existir
-        with open("data.pkl", "rb") as arq:
-            lista_prof, lista_alunos, lista_mat = pickle.load(arq)
-    except FileNotFoundError:
-        lista_prof, lista_alunos, lista_mat = [], [], set()
-    except Exception:
-        lista_prof, lista_alunos, lista_mat = [], [], set()
-    
-    while True:
-        menu()
-        opcao = input("Opção: ")
+            
+while True:
+    opcao = input("Opção: ")
         
-        match opcao:                                                    #Seleciona uma das opções do menu
-            case "1":
-                escolha = input("Deseja matricular um aluno ou professor? (aluno/professor)").strip().lower()
-                while escolha not in ('aluno', 'professor'):  
-                    escolha = input("Escolha inválida! Insira 'professor' ou 'aluno': ").strip().lower()
-                matricula(escolha, lista_prof, lista_alunos, lista_mat)
-            case "2":
-                escolha = input("Deseja alterar uma matrícula de um aluno ou de um professor? (aluno/professor)").strip().lower()
-                while escolha not in ('aluno', 'professor'):  
-                    escolha = input("Escolha inválida! Insira 'professor' ou 'aluno': ").strip().lower()
-                remove_matriculas(escolha, lista_prof, lista_alunos, lista_mat)
-            case "3":
-                escolha = input("Deseja listar as matriculas dos alunos ou professores? (aluno/professor)").strip().lower()
-                while escolha not in ('aluno', 'professor'):  
-                    escolha = input("Escolha inválida! Insira 'professor' ou 'aluno': ").strip().lower()
-                lista_matriculas(escolha, lista_prof, lista_alunos)
-            case "4":
-                salva_dados(lista_prof, lista_alunos, lista_mat)
-            case "5":
-                "Tarefa finalizada!"
-                break
-            case _:
-                print("Opção inváldia, insira um dos números do menu:")
+    match opcao:                                                    #Seleciona uma das opções do menu
+        case "1":
+            escolha = input("Deseja matricular um aluno ou professor? (aluno/professor)").strip().lower()
+            while escolha not in ('aluno', 'professor'):  
+                escolha = input("Escolha inválida! Insira 'professor' ou 'aluno': ").strip().lower()
+            matricula(escolha, lista_prof, lista_alunos, lista_mat)
+        case "2":
+            escolha = input("Deseja alterar uma matrícula de um aluno ou de um professor? (aluno/professor)").strip().lower()
+            while escolha not in ('aluno', 'professor'):  
+                escolha = input("Escolha inválida! Insira 'professor' ou 'aluno': ").strip().lower()
+            remove_matriculas(escolha, lista_prof, lista_alunos, lista_mat)
+        case "3":
+            escolha = input("Deseja listar as matriculas dos alunos ou professores? (aluno/professor)").strip().lower()
+            while escolha not in ('aluno', 'professor'):  
+                escolha = input("Escolha inválida! Insira 'professor' ou 'aluno': ").strip().lower()
+            lista_matriculas(escolha, lista_prof, lista_alunos)
+        case "4":
+            "Tarefa finalizada!"
+            break
+        case _:
+            print("Opção inváldia, insira um dos números do menu:")
         
-        
-if __name__ == "__main__":
-    main()   
 
 

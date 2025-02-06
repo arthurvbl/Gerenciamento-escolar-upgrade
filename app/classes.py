@@ -54,13 +54,3 @@ class Aluno(Pessoa):
     def __str__(self):                                 #Método dunder que define a representação textual dos objetos (alunos)
         return f"\n{self.get_matricula()} || Nome: {self.nome} || Idade: {self.idade} || Ano: {self.ano} || Média: {self.media} --> {self.situacao}\n"
         
-        
-class Users:
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
-
-class Adms:
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
