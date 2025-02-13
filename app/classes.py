@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-import app.validacoes
+import validacoes
 
 class Pessoa(ABC):
     def __init__(self, nome, idade, matricula):         #Método construtor da classe Pessoa

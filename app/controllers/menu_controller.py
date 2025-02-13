@@ -1,47 +1,13 @@
-from bottle import route, template, request, redirect
-from app.classes import Aluno, Professor
-import app.validacoes
-
-lista_prof = []
-lista_alunos = []
-lista_mat = set()
+from bottle import route, template
 
 @route('/menu')
 def menu():
     return template('app/views/menu_view')
 
-@route('/matricular', metod=["GET", "POST"])
-def matricula():               #Função de matrícula
+@route('/matricular')
+def matricula(escolha, lista_prof, lista_alunos, lista_mat):               #Função de matrícula
     
-    error = None
-    success = None
-    
-    if request.method == 'POST':
-        nome = request.forms.get('nome')
-        idade = int(request.forms.get('idade'))
-        matricula = request.forms.get('matricula')
-        
-        app.validacoes.valida_nulo(idade)
-        
-        while matricula in lista_mat:
-            return template('app/views/matricular_view', error="Matricula já existe!")
-        lista_mat.add(matricula)
-        
-        escolha = request.forms.get('escolha')      # Ainda vou alterar isso para um label ou button
-        
-        if escolha == 'professor':
-            professor = Professor(nome, idade, matricula)
-            professor.matricular()
-            lista_prof.append(professor)
-            return template('app/views/matricular_view', success="Matricula realizada com sucesso!")
-        else:
-            aluno = Aluno(nome, idade, matricula)
-            aluno.matricular()
-            lista_alunos.append(aluno)
-            return template('app/views/matricular_view', success="Matricula realizada com sucesso!")
-        
-    return template('app/views/matricular_view', error=error, success=success)
-    """nome = input("Nome: ")
+    nome = input("Nome: ")
     idade = int(input("Idade: "))
     validacoes.valida_nulo(idade)
     while True:
@@ -69,7 +35,7 @@ def matricula():               #Função de matrícula
         print("----------- ALUNO MATRICULADO -----------")
         print(aluno)
         input("Pressione qualquer telca para prosseguir")
-"""
+
 @route('/listar')        
 def lista_matriculas(escolha, lista_prof, lista_alunos):                   #Função que lista as matrículas
     if escolha == "professor":
