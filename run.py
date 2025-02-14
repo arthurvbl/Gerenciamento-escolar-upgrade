@@ -3,7 +3,7 @@ import app.controllers.login_controller
 import app.controllers.register_controller
 from app.models.login_register_model import users, adms
 
-# ----------- SERVIR CSS -----------
+# ----------- SERVER CSS -----------
 @route('/static/<filename>')
 def serve_static(filename):
     return static_file(filename, root='./static')
@@ -78,7 +78,8 @@ def index():
     </html>
     """
 
-# ----------- ROTA ADMINISTRADOR -----------
+# ----------- PERMISSÕES -----------
+
 @route('/Adm')
 def adm():
     return """
@@ -132,7 +133,7 @@ def adm():
     </head>
     <body>
         <div class='container'>
-            <h1>Deseja realizar?</h1>
+            <h1>O que deseja realizar?</h1>
             <a href='/Adm/Login'>Login</a>
             <a href='/Adm/Register'>Registrar-se</a>
         </div>
@@ -140,14 +141,12 @@ def adm():
     </html>
     """
 
-# ----------- PERMISSÕES -----------
-
-@route('/Adm')
-def adm():
+@route('/User')
+def user():
     return """
     <html>
     <head>
-        <title>Gerenciamento Escolar - Administrador</title>
+        <title>Gerenciamento Escolar - Usuário</title>
        <style>
             body {
                 font-family: Arial, sans-serif;
@@ -191,11 +190,11 @@ def adm():
     </head>
      <body>
      <div class='container'>
-        <h1>Deseja realizar? </h1>
+        <h1>O que deseja realizar? </h1>
      </div>
         <div class='button-container'>
-            <a href='/Adm/Login'>Login</a>  
-            <a href='/Adm/Register'>Registrar-se</a>
+            <a href='/User/Login'>Login</a>  
+            <a href='/User/Register'>Registrar-se</a>
         </div>
     </body>
     </html>

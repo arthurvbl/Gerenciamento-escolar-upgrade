@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-import validacoes
+import app.validacoes
 
 class Pessoa(ABC):
     def __init__(self, nome, idade, matricula):         #Método construtor da classe Pessoa
@@ -26,7 +26,7 @@ class Professor(Pessoa):
     def matricular(self):                              #Método usado para matricular professores
         self.materia = input("Materia: ")
         self.salario = int(input("Salário: "))
-        validacoes.valida_nulo(self.salario)
+        app.validacoes.valida_nulo(self.salario)
         
     def __str__(self):                                 #Método dunder que define a representação textual dos objetos (professores)
         return f"\n{self.get_matricula()} || Nome: {self.nome} || Idade: {self.idade} || Materia: {self.materia} || Salário: {self.salario}\n"
@@ -40,9 +40,9 @@ class Aluno(Pessoa):
         
     def matricular(self):                              #Método usado para matricular alunos
         ciclo = input("O aluno está em qual ciclo? (fundamental/medio)").strip().lower()            
-        self.ano = validacoes.valida_ciclo(ciclo)
+        self.ano = app.validacoes.valida_ciclo(ciclo)
         self.media = float(input("Média: "))
-        validacoes.valida_media(self.media)
+        app.validacoes.valida_media(self.media)
         self.calcula_situacao(self.media)
         
     def calcula_situacao(self, media):                 #Método usado para definir se um aluno foi aprovado ou reprovado
