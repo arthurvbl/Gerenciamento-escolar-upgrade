@@ -1,7 +1,6 @@
 from bottle import run, route, static_file
 import app.controllers.login_controller
 import app.controllers.register_controller
-from app.models.login_register_model import users, adms
 
 # ----------- SERVER CSS -----------
 @route('/static/<filename>')

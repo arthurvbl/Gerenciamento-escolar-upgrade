@@ -1,6 +1,6 @@
 from bottle import route, request, template, redirect
-from app.models.login_register_model import users, adms
 from app.controllers.menu_controller import menu
+from app.models.login_register_model import load
 
 @route('/<permission>/Login', method=['GET','POST'])
 def login(permission):
@@ -12,6 +12,8 @@ def login(permission):
         if request.method == 'POST':                        # Se o método for POST, é coletado o nome de usuário e senha do usuário
             username = request.forms.get('username')
             password = request.forms.get('password')
+            
+            users = load('user_model.json')
             
             if username in users["username"]:
                 indice = users["username"].index(username)
@@ -25,6 +27,8 @@ def login(permission):
         if request.method == 'POST':                        # Se o método for POST, é coletado o nome de usuário e senha do usuário
             username = request.forms.get('username')
             password = request.forms.get('password')
+            
+            adms = load('adm_model.json')
             
             if username in adms["username"]:
                 indice = adms["username"].index(username)

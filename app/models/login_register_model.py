@@ -1,2 +1,17 @@
-users = {"username": [], "password": []} # Dicionário de usuários que futuramente será carregado do arquivo em json
-adms = {"username": [], "password": []}  # Dicionário de administradores que futuramente será carregado do arquivo em json
+import json
+
+def load(model):
+    try:
+        with open(f'app/models/{model}','r') as file:
+            dados = json.load(file)
+            return dados
+    except FileNotFoundError:
+        return {{
+    "username": [],
+    "password": []
+    }}
+    
+def write(dados):
+    with open('app/models/user_model.json','w') as file:
+        json.dump(dados, file, indent=4)
+        
