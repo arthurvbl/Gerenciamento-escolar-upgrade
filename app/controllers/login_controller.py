@@ -1,15 +1,16 @@
 from bottle import route, request, template, redirect
 from app.controllers.menu_controller import menu
-from app.models.login_register_model import load
+from app.controllers.banco_dados_controller import load
 
 @route('/<permission>/Login', method=['GET','POST'])
+# Função que entra na conta de usuários já cadastrados
 def login(permission):
     
     error = None
-    
+    # Opção caso o usuário seja comum
     if permission == 'User':
     
-        if request.method == 'POST':                        # Se o método for POST, é coletado o nome de usuário e senha do usuário
+        if request.method == 'POST':                        
             username = request.forms.get('username')
             password = request.forms.get('password')
             
@@ -21,10 +22,10 @@ def login(permission):
                     return redirect('/menu')
             else:
                 error = "Usuário ou senha incorretos."
-                
+    # Opção caso o usuário seja um administrador            
     else:
         
-        if request.method == 'POST':                        # Se o método for POST, é coletado o nome de usuário e senha do usuário
+        if request.method == 'POST':                        
             username = request.forms.get('username')
             password = request.forms.get('password')
             

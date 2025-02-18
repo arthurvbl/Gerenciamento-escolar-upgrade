@@ -1,12 +1,13 @@
 from bottle import route, request, template, redirect
-from app.models.login_register_model import load, write
+from app.controllers.banco_dados_controller import load, write
 
 @route('/<permission>/Register', method=['GET', 'POST'])
+# Função que registra usuários na página de login
 def register(permission):
     
     error= None
     success= None
-    
+    # Opção caso o usuário seja comum
     if permission == 'User':
     
         if request.method == 'POST':
@@ -25,7 +26,7 @@ def register(permission):
                 write(users)
                 success = "Usuário registrado!"
                 return(redirect('/User/Login'))
-                
+    # Opção caso o usuário seja um administrador            
     else:
         
         if request.method == 'POST':

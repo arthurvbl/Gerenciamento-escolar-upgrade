@@ -1,12 +1,13 @@
 import json
 from bottle import route, template, request, redirect
-from app.classes import Aluno, Professor
-
+from app.constructors.classes import Aluno, Professor
 
 @route('/menu')
+# Abre a página de menu
 def menu():
     return template('app/views/menu_view')
 
+# Carrega os dados armazenados no models
 def carregar_dados_arquivo(nome_arquivo, modelo_padrao):
     try:
         with open(nome_arquivo, 'r', encoding='utf-8') as f:
@@ -14,15 +15,14 @@ def carregar_dados_arquivo(nome_arquivo, modelo_padrao):
     except FileNotFoundError:
         return modelo_padrao
 
+# Salva os dados no models
 def salvar_dados_arquivo(nome_arquivo, dados):
     with open(nome_arquivo, 'w', encoding='utf-8') as f:
         json.dump(dados, f, ensure_ascii=False, indent=4)
 
 @route('/matricular', method=["GET", "POST"])
+# Função de matricula
 def matricula():
-    error = None
-    success = None
-
     if request.method == 'POST':
         escolha = request.forms.get('escolha')
 
@@ -34,6 +34,7 @@ def matricula():
     return template('app/views/matricular_view')
 
 @route('/matricular/professor', method=["GET", "POST"])
+# Função de matricula específica de professores
 def professor():
     modelo_professor = {'professores': []}
     dados_professores = carregar_dados_arquivo('app/models/matricula_professor_model.json', modelo_professor)
@@ -59,6 +60,7 @@ def professor():
     return template('app/views/matricula_professor_view')
 
 @route('/matricular/aluno', method=["GET", "POST"])
+# Função de matricula específica de alunos
 def matricula_aluno():
     modelo_aluno = {"alunos": []}
     dados_alunos = carregar_dados_arquivo('app/models/matricula_aluno_model.json', modelo_aluno)
@@ -83,23 +85,31 @@ def matricula_aluno():
 
     return template('app/views/matricula_aluno_view')
 
-@route('/listar')        
-def lista_matriculas(escolha, lista_prof, lista_alunos):
-    if escolha == "professor":
-        if not lista_prof:
-            print("Nenhum professor matriculado!")
-        else:
-            for professores in lista_prof:
-                print(professores)
-    else:
-        if not lista_alunos:
-            print("Nenhum aluno matriculado!")
-        else:
-            for alunos in lista_alunos:
-                print(alunos)
+@route('/listar', method=['POST', 'GET'])
+# Função que lista as matrículas e outras informações de cadastro      
+def lista_matriculas():
+    if request.method == 'POST':
+        escolha = request.forms.get('escolha')
+        if escolha == 'professor':
+            redirect("/listar/professor")
+        elif escolha == 'aluno':
+            redirect("/listar/aluno")
 
-@route('/remover')                
-def remove_matriculas(escolha, lista_prof, lista_alunos, lista_mat):       #Função que exclui uma matrícula específica
+    return template('app/views/listar_view')
+
+@route('/listar/professor', method='GET')
+# Lista matriculas e informações de professores
+def lista_professor():
+    return template('app/views/listar_professor_view')
+
+@route('/listar/aluno', method='GET')
+# Lista matriculas e informações de alunos
+def lista_aluno():
+    return template('app/view/listar_aluno_view')
+
+@route('/remover')
+#Função que exclui uma matrícula específica
+def remove_matriculas(escolha, lista_prof, lista_alunos, lista_mat):
         matricula = input("Insira a matrícula que deseja excluir: ")
         if escolha == 'professor':
             for professor in lista_prof:
@@ -121,5 +131,6 @@ def remove_matriculas(escolha, lista_prof, lista_alunos, lista_mat):       #Fun�
         
         
 @route('/logout')
+# Realiza logout da conta cadastrada na página de login
 def logout():
     pass
