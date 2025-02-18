@@ -22,6 +22,11 @@
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
             text-align: center;
             width: 350px;
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         h1 {
             color: #333;
@@ -33,24 +38,18 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
-            transition: 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
         input:focus {
             border-color: #2575fc;
             outline: none;
             box-shadow: 0px 0px 5px rgba(37, 117, 252, 0.5);
         }
-        .error, .success {
-            color: white;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-        .error {
-            background-color: #e74c3c;
-        }
-        .success {
-            background-color: #2ecc71;
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: -5px;
+            display: none;
         }
         button {
             width: 100%;
@@ -62,6 +61,7 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background 0.3s, transform 0.2s;
+            margin-top: 10px;
         }
         button:hover {
             background: #6a11cb;
@@ -72,25 +72,85 @@
 <body>
     <div class="container">
         <h1>Matricular Professor</h1>
-        
-        <form method="post">
+        <form id="registrationForm">
             <label for="nome">Nome:</label>
             <input type="text" id="nome" name="nome" required>
+            <p class="error-message" id="nomeError">Nome deve ter pelo menos 3 caracteres.</p>
 
             <label for="idade">Idade:</label>
-            <input type="number" id="idade" name="idade" required min="1">
+            <input type="number" id="idade" name="idade" required min="18">
+            <p class="error-message" id="idadeError">A idade mínima é 18 anos.</p>
 
             <label for="matricula">Matrícula:</label>
             <input type="text" id="matricula" name="matricula" required>
+            <p class="error-message" id="matriculaError">A matrícula não pode estar vazia.</p>
 
             <label for="materia">Matéria:</label>
             <input type="text" id="materia" name="materia" required>
+            <p class="error-message" id="materiaError">Informe a matéria.</p>
 
             <label for="salario">Salário:</label>
             <input type="number" id="salario" name="salario" step="0.01" required>
+            <p class="error-message" id="salarioError">O salário deve ser maior que zero.</p>
 
             <button type="submit">Registrar</button>
         </form>
+        <button onclick="window.history.back()">Voltar</button>
     </div>
+
+    <script>
+        document.getElementById("registrationForm").addEventListener("submit", function(event) {
+            let valid = true;
+
+            let nome = document.getElementById("nome").value.trim();
+            let nomeError = document.getElementById("nomeError");
+            if (nome.length < 3) {
+                nomeError.style.display = "block";
+                valid = false;
+            } else {
+                nomeError.style.display = "none";
+            }
+
+            let idade = document.getElementById("idade").value;
+            let idadeError = document.getElementById("idadeError");
+            if (idade < 18) {
+                idadeError.style.display = "block";
+                valid = false;
+            } else {
+                idadeError.style.display = "none";
+            }
+
+            let matricula = document.getElementById("matricula").value.trim();
+            let matriculaError = document.getElementById("matriculaError");
+            if (matricula === "") {
+                matriculaError.style.display = "block";
+                valid = false;
+            } else {
+                matriculaError.style.display = "none";
+            }
+
+            let materia = document.getElementById("materia").value.trim();
+            let materiaError = document.getElementById("materiaError");
+            if (materia === "") {
+                materiaError.style.display = "block";
+                valid = false;
+            } else {
+                materiaError.style.display = "none";
+            }
+
+            let salario = document.getElementById("salario").value;
+            let salarioError = document.getElementById("salarioError");
+            if (salario <= 0) {
+                salarioError.style.display = "block";
+                valid = false;
+            } else {
+                salarioError.style.display = "none";
+            }
+
+            if (!valid) {
+                event.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>

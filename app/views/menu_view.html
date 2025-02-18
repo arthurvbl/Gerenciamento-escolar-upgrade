@@ -50,5 +50,41 @@
         <a href="/listar">Listar matrículas</a>
         <a href="/logout">Logout</a>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const links = document.querySelectorAll(".menu a");
+        
+            links.forEach(link => {
+                link.addEventListener("click", function (event) {
+                    const text = this.innerText;
+                    if (text.includes("Remover")) {
+                        const confirmacao = confirm("Tem certeza que deseja remover uma matrícula?");
+                        if (!confirmacao) {
+                            event.preventDefault();
+                        }
+                    }
+                });
+            });
+        
+            const menu = document.querySelector(".menu");
+            menu.style.opacity = "0";
+            menu.style.transform = "translateY(-20px)";
+            setTimeout(() => {
+                menu.style.transition = "opacity 0.5s ease-out, transform 0.5s ease-out";
+                menu.style.opacity = "1";
+                menu.style.transform = "translateY(0)";
+            }, 100);
+        
+            links.forEach(link => {
+                link.addEventListener("mouseenter", () => {
+                    link.style.transition = "background 0.3s, transform 0.2s";
+                    link.style.transform = "scale(1.1)";
+                });
+                link.addEventListener("mouseleave", () => {
+                    link.style.transform = "scale(1)";
+                });
+            });
+        });
+    </script>
 </body>
 </html>

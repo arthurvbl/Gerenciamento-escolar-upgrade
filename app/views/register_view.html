@@ -22,6 +22,11 @@
             box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
             text-align: center;
             width: 350px;
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         h1 {
             color: #333;
@@ -33,24 +38,18 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
-            transition: 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s;
         }
         input:focus {
             border-color: #2575fc;
             outline: none;
             box-shadow: 0px 0px 5px rgba(37, 117, 252, 0.5);
         }
-        .error, .success {
-            color: white;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-        .error {
-            background-color: #e74c3c;
-        }
-        .success {
-            background-color: #2ecc71;
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: -5px;
+            display: none;
         }
         button {
             width: 100%;
@@ -62,6 +61,7 @@
             border-radius: 5px;
             cursor: pointer;
             transition: background 0.3s, transform 0.2s;
+            margin-top: 10px;
         }
         button:hover {
             background: #6a11cb;
@@ -72,6 +72,7 @@
 <body>
     <div class="container">
         <h1>Bem-vindo, insira os dados para se registrar!</h1>
+
         <p id="message" class="error" style="display: none;"></p>
         
         <form id="registerForm" method="post">
@@ -89,14 +90,14 @@
     
     <script>
         document.getElementById("registerForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            
             let username = document.getElementById("username").value.trim();
             let password = document.getElementById("password").value.trim();
             let message = document.getElementById("message");
 
             if (username === "" || password === "") {
+                event.preventDefault();
                 message.textContent = "Preencha todos os campos corretamente.";
+                message.className = "error";
                 message.style.display = "block";
                 return;
             }
@@ -106,8 +107,6 @@
             message.style.display = "block";
 
             setTimeout(() => { message.style.display = "none"; }, 3000);
-
-            this.submit();
         });
     </script>
 </body>

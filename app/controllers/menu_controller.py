@@ -121,6 +121,8 @@ def remove_matriculas(escolha, lista_prof, lista_alunos, lista_mat):       #Fun�
                 
         print(f"{matricula} não é um {escolha}.")
         
+        
+        
 @route('/logout')
 def logout():
     pass
