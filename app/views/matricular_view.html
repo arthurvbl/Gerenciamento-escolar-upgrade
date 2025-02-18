@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matricular</title>
-    <link rel="stylesheet" href="./styles/styles.css">
+    <title>Escolha o Tipo de Matrícula</title>
+    <link rel="stylesheet" href="/static/styles.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -26,35 +26,10 @@
         h1 {
             color: #333;
         }
-        input {
-            width: calc(100% - 20px);
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: 0.3s;
-        }
-        input:focus {
-            border-color: #2575fc;
-            outline: none;
-            box-shadow: 0px 0px 5px rgba(37, 117, 252, 0.5);
-        }
-        .error, .success {
-            color: white;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-        .error {
-            background-color: #e74c3c;
-        }
-        .success {
-            background-color: #2ecc71;
-        }
-        button {
+        .btn {
             width: 100%;
             padding: 12px;
+            margin: 10px 0;
             background: #2575fc;
             border: none;
             color: white;
@@ -63,7 +38,7 @@
             cursor: pointer;
             transition: background 0.3s, transform 0.2s;
         }
-        button:hover {
+        .btn:hover {
             background: #6a11cb;
             transform: scale(1.05);
         }
@@ -71,52 +46,11 @@
 </head>
 <body>
     <div class="container">
-        <h1>MATRICULAR</h1>
-        <p id="message" class="error" style="display: none;"></p>
-        
-        <form id="matriculaForm" method="post">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
-
-            <label for="idade">Idade:</label>
-            <input type="number" id="idade" name="idade" required min="1">
-
-            <label for="matricula">Matrícula:</label>
-            <input type="text" id="matricula" name="matricula" required>
-
-            <label for="escolha">Tipo:</label>
-            <select name="escolha" id="escolha">
-                <option value="aluno">Aluno</option>
-                <option value="professor">Professor</option>
-            </select>
-
-            <button type="submit">Registrar</button>
+        <h1>Escolha o Tipo de Matrícula</h1>
+        <form method="post">
+            <button type="submit" name="escolha" value="aluno" class="btn">Matrícula de Aluno</button>
+            <button type="submit" name="escolha" value="professor" class="btn">Matrícula de Professor</button>
         </form>
     </div>
-    
-    <script>
-        document.getElementById("matriculaForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            
-            let nome = document.getElementById("nome").value.trim();
-            let idade = document.getElementById("idade").value;
-            let matricula = document.getElementById("matricula").value.trim();
-            let message = document.getElementById("message");
-
-            if (nome === "" || matricula === "" || idade <= 0) {
-                message.textContent = "Preencha todos os campos corretamente.";
-                message.style.display = "block";
-                return;
-            }
-            
-            message.textContent = "Registro realizado com sucesso!";
-            message.className = "success";
-            message.style.display = "block";
-
-            setTimeout(() => { message.style.display = "none"; }, 3000);
-
-            this.submit();
-        });
-    </script>
 </body>
 </html>
