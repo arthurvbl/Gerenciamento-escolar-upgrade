@@ -1,7 +1,6 @@
 import json
 from bottle import route, template, request, redirect
 from app.classes import Aluno, Professor
-import app.validacoes
 
 
 @route('/menu')
@@ -36,53 +35,51 @@ def matricula():
 
 @route('/matricular/professor', method=["GET", "POST"])
 def professor():
-    models_professor = {'matricula': [], 'nome': [], 'idade': [], 'materia': [], 'salario': []}
-    dados_professores = carregar_dados_arquivo('app/models/matricula_professor_model.json', models_professor)
+    modelo_professor = {'professores': []}
+    dados_professores = carregar_dados_arquivo('app/models/matricula_professor_model.json', modelo_professor)
 
     if request.method == 'POST':
-        matricula = request.forms.get('matricula')
         nome = request.forms.get('nome')
         idade = int(request.forms.get('idade'))
+        matricula = request.forms.get('matricula')
         materia = request.forms.get('materia')
         salario = float(request.forms.get('salario'))
+        
+        if any(professor['matricula'] == matricula for professor in dados_professores['professores']):
+            error = "Erro: Matrícula já cadastrada!"  
+            return template('app/views/matricula_professor_view', error=error)
 
-        professor = Professor(nome, idade, matricula)
-
-        dados_professores['matricula'].append(matricula)
-        dados_professores['nome'].append(nome)
-        dados_professores['idade'].append(idade)
-        dados_professores['materia'].append(materia)
-        dados_professores['salario'].append(salario)
+        professor = Professor(nome, idade, matricula, materia, salario)
+        
+        dados_professores['professores'].append(professor.to_dict())
 
         salvar_dados_arquivo('app/models/matricula_professor_model.json', dados_professores)
-        return template('app/views/matricula_professor_view')
+        return template('app/views/menu_view')
     
     return template('app/views/matricula_professor_view')
 
 @route('/matricular/aluno', method=["GET", "POST"])
 def matricula_aluno():
-    modelo_aluno = {'matricula': [], 'nome': [], 'idade': [], 'ano': [], 'media': [], 'situacao': []}
+    modelo_aluno = {"alunos": []}
     dados_alunos = carregar_dados_arquivo('app/models/matricula_aluno_model.json', modelo_aluno)
 
     if request.method == 'POST':
-        matricula = request.forms.get('matricula')
         nome = request.forms.get('nome')
         idade = int(request.forms.get('idade'))
+        matricula = request.forms.get('matricula')
         ano = request.forms.get('ano')
         media = float(request.forms.get('media'))
+        
+        if any(aluno['matricula'] == matricula for aluno in dados_alunos['alunos']):
+            error = "Erro: Matrícula já cadastrada!"  
+            return template('app/views/matricula_aluno_view', error=error)
 
-        aluno = Aluno(nome, idade, matricula)
-        situacao = aluno.calcula_situacao(media)
-
-        dados_alunos['matricula'].append(matricula)
-        dados_alunos['nome'].append(nome)
-        dados_alunos['idade'].append(idade)
-        dados_alunos['ano'].append(ano)
-        dados_alunos['media'].append(media)
-        dados_alunos['situacao'].append(situacao)
+        aluno = Aluno(nome, idade, matricula, ano, media)
+        
+        dados_alunos['alunos'].append(aluno.to_dict())
 
         salvar_dados_arquivo('app/models/matricula_aluno_model.json', dados_alunos)
-        return template('app/views/matricula_aluno_view')
+        return template('app/views/menu_view')
 
     return template('app/views/matricula_aluno_view')
 

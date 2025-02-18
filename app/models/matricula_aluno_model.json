@@ -1,38 +1,28 @@
 {
-    "matricula": [
-        "0232037374",
-        "123",
-        "123",
-        "123"
-    ],
-    "nome": [
-        "Arthur",
-        "123",
-        "123123",
-        "123"
-    ],
-    "idade": [
-        21,
-        123,
-        123,
-        123
-    ],
-    "ano": [
-        "2",
-        "123",
-        "123",
-        "123"
-    ],
-    "media": [
-        5.0,
-        123.0,
-        123.0,
-        123.0
-    ],
-    "situacao": [
-        null,
-        null,
-        null,
-        null
+    "alunos": [
+        {
+            "matricula": "232037374",
+            "nome": "arthur",
+            "idade": 20,
+            "ano": "8",
+            "media": 6.0,
+            "situacao": "APROVADO"
+        },
+        {
+            "matricula": "123",
+            "nome": "teste",
+            "idade": 10,
+            "ano": "1",
+            "media": 2.0,
+            "situacao": "REPROVADO"
+        },
+        {
+            "matricula": "2020",
+            "nome": "carlos",
+            "idade": 20,
+            "ano": "9",
+            "media": 9.0,
+            "situacao": "APROVADO"
+        }
     ]
 }

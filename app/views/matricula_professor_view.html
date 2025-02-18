@@ -72,14 +72,14 @@
 <body>
     <div class="container">
         <h1>Matricular Professor</h1>
-        <form id="registrationForm">
+        <form id="registrationForm", method="POST">
             <label for="nome">Nome:</label>
             <input type="text" id="nome" name="nome" required>
             <p class="error-message" id="nomeError">Nome deve ter pelo menos 3 caracteres.</p>
 
             <label for="idade">Idade:</label>
-            <input type="number" id="idade" name="idade" required min="18">
-            <p class="error-message" id="idadeError">A idade mínima é 18 anos.</p>
+            <input type="number" id="idade" name="idade" required min="5">
+            <p class="error-message" id="idadeError">A idade mínima é 5 anos.</p>
 
             <label for="matricula">Matrícula:</label>
             <input type="text" id="matricula" name="matricula" required>
