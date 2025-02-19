@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Professores</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .empty-message {
+            margin-top: 20px;
+            color: #888;
+        }
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Lista de Professores</h2>
+        % if professores:
+        <table>
+            <tr>
+                <th>Matrícula</th>
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>Matéria</th>
+                <th>Salário</th>
+            </tr>
+            % for professor in professores:
+            <tr>
+                <td>{{ professor["matricula"] }}</td>
+                <td>{{ professor["nome"] }}</td>
+                <td>{{ professor["idade"] }}</td>
+                <td>{{ professor["materia"] }}</td>
+                <td>R$ {{ professor["salario"] }}</td>
+            </tr>
+            % end
+        </table>
+        % else:
+        <p class="empty-message">Nenhum professor matriculado.</p>
+        % end
+        <a href="/menu">Voltar ao Menu</a>
+    </div>
+</body>
+</html>

@@ -6,13 +6,6 @@
             "idade": 20,
             "materia": "Matemática",
             "salario": 3000.0
-        },
-        {
-            "matricula": "123",
-            "nome": "teste",
-            "idade": 10,
-            "materia": "Português",
-            "salario": 3200.0
         }
     ]
 }

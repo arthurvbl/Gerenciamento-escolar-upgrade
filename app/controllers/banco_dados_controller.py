@@ -7,13 +7,10 @@ def load(model):
             dados = json.load(file)
             return dados
     except FileNotFoundError:
-        return {{
-    "username": [],
-    "password": []
-    }}
+        return {"username": [],"password": []}
 
 # Função que escreve dados novos para uso no login    
-def write(dados):
-    with open('app/models/user_model.json','w') as file:
+def write(dados, model):
+    with open(f'app/models/{model}','w') as file:
         json.dump(dados, file, indent=4)
         

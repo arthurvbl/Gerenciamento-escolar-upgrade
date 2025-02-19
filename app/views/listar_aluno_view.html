@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Alunos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 80%;
+            max-width: 600px;
+        }
+        h2 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .empty-message {
+            margin-top: 20px;
+            color: #888;
+        }
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Lista de Alunos</h2>
+        % if alunos:
+        <table>
+            <tr>
+                <th>Matrícula</th>
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>Ano</th>
+                <th>Média</th>
+                <th>Situação</th>
+            </tr>
+            % for aluno in alunos:
+            <tr>
+                <td>{{ aluno["matricula"] }}</td>
+                <td>{{ aluno["nome"] }}</td>
+                <td>{{ aluno["idade"] }}</td>
+                <td>{{ aluno["ano"] }}</td>
+                <td>{{ aluno["media"] }}</td>
+                <td>{{ aluno["situacao"] }}</td>
+            </tr>
+            % end
+        </table>
+        % else:
+        <p class="empty-message">Nenhum aluno matriculado.</p>
+        % end
+        <a href="/menu">Voltar ao Menu</a>
+    </div>
+</body>
+</html>

@@ -2,6 +2,8 @@ import json
 from bottle import route, template, request, redirect
 from app.constructors.classes import Aluno, Professor
 
+modelo_professor = {'professores': []}
+modelo_aluno = {"alunos": []}
 @route('/menu')
 # Abre a página de menu
 def menu():
@@ -35,8 +37,7 @@ def matricula():
 
 @route('/matricular/professor', method=["GET", "POST"])
 # Função de matricula específica de professores
-def professor():
-    modelo_professor = {'professores': []}
+def matricula_professor():
     dados_professores = carregar_dados_arquivo('app/models/matricula_professor_model.json', modelo_professor)
 
     if request.method == 'POST':
@@ -62,7 +63,6 @@ def professor():
 @route('/matricular/aluno', method=["GET", "POST"])
 # Função de matricula específica de alunos
 def matricula_aluno():
-    modelo_aluno = {"alunos": []}
     dados_alunos = carregar_dados_arquivo('app/models/matricula_aluno_model.json', modelo_aluno)
 
     if request.method == 'POST':
@@ -100,37 +100,68 @@ def lista_matriculas():
 @route('/listar/professor', method='GET')
 # Lista matriculas e informações de professores
 def lista_professor():
-    return template('app/views/listar_professor_view')
+    dados_professores = carregar_dados_arquivo('app/models/matricula_professor_model.json', modelo_professor)
+    return template('app/views/listar_professor_view', professores=dados_professores['professores'])
 
 @route('/listar/aluno', method='GET')
 # Lista matriculas e informações de alunos
 def lista_aluno():
-    return template('app/view/listar_aluno_view')
+    dados_alunos = carregar_dados_arquivo('app/models/matricula_aluno_model.json', modelo_aluno)
+    return template('app/views/listar_aluno_view', alunos=dados_alunos['alunos'])
 
-@route('/remover')
+@route('/remover', method=['GET', 'POST'])
 #Função que exclui uma matrícula específica
-def remove_matriculas(escolha, lista_prof, lista_alunos, lista_mat):
-        matricula = input("Insira a matrícula que deseja excluir: ")
+def remover():
+    if request.method == 'POST':
+        escolha = request.forms.get('escolha')
         if escolha == 'professor':
-            for professor in lista_prof:
-                if professor.get_matricula() == matricula:
-                    lista_prof.remove(professor)
-                    lista_mat.remove(matricula)
-                    print(f"{matricula} removido!")
-                    return  
-        else:
-            for aluno in lista_alunos:
-                if aluno.get_matricula() == matricula:
-                    lista_alunos.remove(aluno)
-                    lista_mat.remove(matricula)
-                    print(f"{matricula} removido!")
-                    return
-                
-        print(f"{matricula} não é um {escolha}.")
+            redirect("/remover/professor")
+        elif escolha == 'aluno':
+            redirect("/remover/aluno")
+    return template('app/views/remover_view')
+
+@route('/remover/professor', method=['GET', 'POST'])
+def remover_professor():
+    error = None
+    
+    dados_professores = carregar_dados_arquivo('app/models/matricula_professor_model.json', modelo_professor)
+    if request.method == 'POST':
+        matricula = request.forms.get('matricula')
+        lista_professores = [prof for prof in dados_professores['professores'] if prof['matricula'] != matricula]
         
+        if len(lista_professores) == len(dados_professores['professores']):
+            error = "Matrícula não encontrada!"
+            return template('app/views/remover_professor_view', error=error, professores=dados_professores['professores'])
         
+        dados_professores['professores'] = lista_professores
+        salvar_dados_arquivo('app/models/matricula_professor_model.json', dados_professores)
+        success = "Matrícula removida!"
+        return template('app/views/menu_view', success=success)
+    
+    return template('app/views/remover_professor_view',error=error, professores=dados_professores['professores'])
+
+@route('/remover/aluno', method=['GET', 'POST'])
+def remover_aluno():
+    error = None
+    
+    dados_aluno = carregar_dados_arquivo('app/models/matricula_aluno_model.json', modelo_aluno)
+    if request.method == 'POST':
+        matricula = request.forms.get('matricula')
+        lista_alunos = [aluno for aluno in dados_aluno['professores'] if aluno['matricula'] != matricula]
+        
+        if len(lista_alunos) == len(dados_aluno['alunos']):
+            error = "Matrícula não encontrada!"
+            return template('app/views/remover_aluno_view', error=error, alunos=dados_aluno['alunos'])
+        
+        dados_aluno['alunos'] = lista_alunos
+        salvar_dados_arquivo('app/models/matricula_aluno_model.json', dados_aluno)
+        success = "Matrícula removida!"
+        return template('app/views/menu_view', success=success)
+    
+    return template('app/views/remover_aluno_view', error=error, alunos=dados_aluno['alunos'])
+
         
 @route('/logout')
 # Realiza logout da conta cadastrada na página de login
 def logout():
-    pass
+    redirect("/")

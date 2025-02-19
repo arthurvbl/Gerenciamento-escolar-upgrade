@@ -3,98 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Remover Matrícula</title>
+    <title>Remover Matrículas</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background: linear-gradient(to right, #2575fc, #6a11cb);
-            margin: 0;
         }
         .container {
-            background: #fff;
-            padding: 2rem;
+            background: white;
+            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
-            width: 350px;
         }
         h2 {
             color: #333;
         }
-        label {
-            font-weight: bold;
-            display: block;
-            margin: 10px 0 5px;
+        form {
+            margin-top: 20px;
         }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .btn {
-            width: 100%;
-            padding: 12px;
-            background: #2575fc;
-            border: none;
+        button {
+            background: #007BFF;
             color: white;
-            font-size: 16px;
-            border-radius: 5px;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
             cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
-        }
-        .btn:hover {
-            background: #6a11cb;
-            transform: scale(1.05);
-        }
-        .message {
-            margin: 10px 0;
-            font-weight: bold;
-        }
-        .error {
-            color: red;
-        }
-        .success {
-            color: green;
-        }
-        .menu-link {
-            display: inline-block;
-            margin-top: 15px;
-            text-decoration: none;
-            color: #fff;
-            background: #333;
-            padding: 10px 15px;
             border-radius: 5px;
-            transition: background 0.3s;
+            font-size: 16px;
         }
-        .menu-link:hover {
-            background: #555;
+        button:hover {
+            background: #0056b3;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>Remover Matrícula</h2>
-        
-        <form action="/remover/matricula" method="post">
-            <label for="escolha">Tipo de Usuário:</label>
-            <select name="escolha" id="escolha" required>
-                <option value="professor">Professor</option>
-                <option value="aluno">Aluno</option>
-            </select>
-            
-            <label for="matricula">Matrícula:</label>
-            <input type="text" id="matricula" name="matricula" required>
-            
-            <button type="submit" class="btn">Remover</button>
+        <h2>Escolha uma opção para remover:</h2>
+        <form action="/remover" method="POST">
+            <button type="submit" name="escolha" value="professor">Remover Matricula de Professores</button>
+            <button type="submit" name="escolha" value="aluno">Remover Matricula de Alunos</button>
         </form>
-        
-        <a href="/menu" class="menu-link">Voltar ao Menu</a>
     </div>
 </body>
 </html>
