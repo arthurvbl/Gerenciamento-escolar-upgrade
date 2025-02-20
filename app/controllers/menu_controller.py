@@ -147,7 +147,7 @@ def remover_aluno():
     dados_aluno = carregar_dados_arquivo('app/models/matricula_aluno_model.json', modelo_aluno)
     if request.method == 'POST':
         matricula = request.forms.get('matricula')
-        lista_alunos = [aluno for aluno in dados_aluno['professores'] if aluno['matricula'] != matricula]
+        lista_alunos = [aluno for aluno in dados_aluno['alunos'] if aluno['matricula'] != matricula]
         
         if len(lista_alunos) == len(dados_aluno['alunos']):
             error = "Matrícula não encontrada!"

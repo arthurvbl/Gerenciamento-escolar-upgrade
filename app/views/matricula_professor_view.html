@@ -28,6 +28,7 @@
             from { opacity: 0; transform: translateY(-20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        
         h1 {
             color: #333;
         }
@@ -51,19 +52,22 @@
             margin-top: -5px;
             display: none;
         }
-        button {
+        button, .btn {
+            display: inline-block;
             width: 100%;
-            padding: 12px;
-            background: #2575fc;
-            border: none;
+            padding: 15px;
+            background-color: #2575fc;
             color: white;
             font-size: 16px;
+            border: none;
             border-radius: 5px;
+            text-decoration: none;
             cursor: pointer;
             transition: background 0.3s, transform 0.2s;
             margin-top: 10px;
+            box-sizing: border-box;
         }
-        button:hover {
+        button:hover, .btn:hover {
             background: #6a11cb;
             transform: scale(1.05);
         }
@@ -95,7 +99,7 @@
 
             <button type="submit">Registrar</button>
         </form>
-        <button onclick="window.history.back()">Voltar</button>
+        <a href="/menu" class="btn">Voltar ao Menu</a>
     </div>
 
     <script>

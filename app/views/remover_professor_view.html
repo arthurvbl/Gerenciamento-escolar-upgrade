@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Remover Professor</title>
     <style>
+        /* Estilo geral */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background: linear-gradient(to right, #2575fc, #6a11cb);
             margin: 0;
             padding: 0;
             display: flex;
@@ -15,83 +16,154 @@
             align-items: center;
             height: 100vh;
         }
+
+        /* Container principal */
         .container {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             text-align: center;
-            width: 400px;
+            width: 90%;
+            max-width: 700px;
+            animation: fadeIn 0.5s ease-out;
         }
+
+        /* Animação ao carregar */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Títulos */
         h1, h2 {
             color: #333;
+            margin-bottom: 1rem;
         }
-        .error {
-            color: red;
+
+        /* Mensagem de erro aprimorada */
+        .error-message {
+            display: none;
+            background: #ff4d4d;
+            color: white;
+            font-weight: bold;
+            padding: 12px;
+            border-radius: 5px;
+            margin-top: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: fadeInError 0.5s ease-in-out;
         }
+
+        /* Animação para a mensagem de erro */
+        @keyframes fadeInError {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Botão de fechar a mensagem de erro */
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Formulário */
         .form-box {
             margin-bottom: 20px;
         }
+
         label {
             display: block;
             margin-top: 10px;
             font-weight: bold;
         }
+
         input {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             margin-top: 5px;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         button {
-            background-color: #28a745;
+            background: #2575fc;
             color: white;
-            padding: 10px 15px;
+            padding: 12px 15px;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
             margin-top: 10px;
+            width: 100%;
+            transition: background 0.3s, transform 0.2s;
         }
+
         button:hover {
-            background-color: #218838;
+            background: #6a11cb;
+            transform: scale(1.05);
         }
+
+        /* Tabela */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
         }
+
         th, td {
             border: 1px solid #ddd;
             padding: 8px;
+            text-align: left;
         }
+
         th {
             background-color: #007bff;
             color: white;
         }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #e0e7ff;
+            cursor: pointer;
+        }
+
+        /* Botão voltar */
         .btn {
             display: inline-block;
             background-color: #007bff;
             color: white;
-            padding: 10px 15px;
+            padding: 12px 18px;
             text-decoration: none;
-            border-radius: 4px;
-            margin-top: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            transition: background 0.3s, transform 0.2s;
         }
+
         .btn:hover {
             background-color: #0056b3;
+            transform: scale(1.05);
         }
+
     </style>
 </head>
 <body>
+
     <div class="container">
         <h1>Remover Professor</h1>
 
-        {% if error %}
-            <p class="error">{{ error }}</p>
-        {% endif %}
+        <!-- Mensagem de erro aprimorada -->
+        <div class="error-message" id="errorMessage">
+            ⚠️ Matrícula não encontrada! Por favor, verifique e tente novamente.
+            <span class="close-btn" onclick="closeErrorMessage()">✖</span>
+        </div>
 
-        <form method="post" class="form-box">
+        <form method="post" class="form-box" id="removerForm">
             <label for="matricula">Matrícula do Professor:</label>
             <input type="text" id="matricula" name="matricula" required>
             <button type="submit">Remover</button>
@@ -107,7 +179,7 @@
                 <th>Salário</th>
             </tr>
             % for professor in professores:
-            <tr>
+            <tr onclick="highlightRow(this)">
                 <td>{{ professor["matricula"] }}</td>
                 <td>{{ professor["nome"] }}</td>
                 <td>{{ professor["idade"] }}</td>
@@ -119,5 +191,35 @@
 
         <a href="/menu" class="btn">Voltar ao Menu</a>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const errorMessage = "{{ error }}";
+            const errorElement = document.getElementById('errorMessage');
+
+            if (errorMessage) {
+                errorElement.style.display = 'block';
+            }
+        });
+
+        function closeErrorMessage() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        function highlightRow(row) {
+            const rows = document.querySelectorAll("tr");
+            rows.forEach(r => r.style.backgroundColor = ""); 
+            row.style.backgroundColor = "#d1e7ff";
+        }
+        document.getElementById('removerForm').addEventListener('submit', function(event) {
+            const matricula = document.getElementById('matricula').value.trim();
+            if (!matricula) {
+                event.preventDefault();
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('errorMessage').innerHTML = "⚠️ Insira uma matrícula válida antes de prosseguir. <span class='close-btn' onclick='closeErrorMessage()'>✖</span>";
+            }
+        });
+    </script>
+
 </body>
 </html>

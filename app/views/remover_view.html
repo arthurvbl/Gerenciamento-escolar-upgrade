@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Remover Matrículas</title>
     <style>
+        /* Estilo geral */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            background: linear-gradient(to right, #2575fc, #6a11cb);
             margin: 0;
             padding: 0;
             display: flex;
@@ -15,41 +16,90 @@
             align-items: center;
             height: 100vh;
         }
+
+        /* Container principal */
         .container {
             background: white;
-            padding: 20px;
+            padding: 2rem;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             text-align: center;
+            width: 350px;
+            animation: fadeIn 0.5s ease-out;
         }
+
+        /* Animação de entrada */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Título */
         h2 {
             color: #333;
+            margin-bottom: 1.5rem;
         }
-        form {
-            margin-top: 20px;
-        }
+
+        /* Botões */
         button {
-            background: #007BFF;
+            width: 100%;
+            padding: 12px;
+            background: #2575fc;
             color: white;
             border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            cursor: pointer;
             border-radius: 5px;
             font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            margin: 10px 0;
         }
+
+        /* Efeito hover nos botões */
         button:hover {
-            background: #0056b3;
+            background: #6a11cb;
+            transform: scale(1.05);
+        }
+
+        /* Mensagem de feedback */
+        .feedback {
+            margin-top: 15px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .feedback.success {
+            color: #27ae60;
+        }
+
+        .feedback.error {
+            color: #e74c3c;
         }
     </style>
 </head>
 <body>
+
     <div class="container">
         <h2>Escolha uma opção para remover:</h2>
-        <form action="/remover" method="POST">
-            <button type="submit" name="escolha" value="professor">Remover Matricula de Professores</button>
-            <button type="submit" name="escolha" value="aluno">Remover Matricula de Alunos</button>
+        <form action="/remover" method="POST" id="removerForm">
+            <button type="submit" name="escolha" value="professor">Remover Matrícula de Professores</button>
+            <button type="submit" name="escolha" value="aluno">Remover Matrícula de Alunos</button>
+            <div class="feedback" id="feedback"></div>
         </form>
     </div>
+
+    <script>
+        // Adiciona interatividade com JS
+        const form = document.getElementById('removerForm');
+        const feedback = document.getElementById('feedback');
+
+        form.addEventListener('submit', function(event) {
+            const clickedButton = event.submitter.value; 
+            feedback.textContent = `Removendo matrícula de ${clickedButton === 'professor' ? 'Professores' : 'Alunos'}...`;
+            feedback.className = 'feedback success';
+            feedback.style.display = 'block';
+            
+        });
+    </script>
+
 </body>
 </html>

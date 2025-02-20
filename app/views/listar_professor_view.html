@@ -5,66 +5,117 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Professores</title>
     <style>
+        /* Estilização geral */
         body {
             font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
             margin: 0;
             padding: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            background: linear-gradient(to right, #2575fc, #6a11cb);
         }
+
+        /* Container principal */
         .container {
-            background: white;
-            padding: 20px;
+            background-color: #fff;
+            padding: 2rem;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             text-align: center;
-            width: 80%;
-            max-width: 600px;
+            width: 90%;
+            max-width: 700px;
+            animation: fadeIn 0.5s ease-out;
         }
+
+        /* Animação ao carregar */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Título */
         h2 {
             color: #333;
+            margin-bottom: 1rem;
         }
+
+        /* Tabela */
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
         }
+
         th, td {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 10px;
             text-align: left;
         }
+
         th {
-            background-color: #007BFF;
+            background-color: #2575fc;
             color: white;
         }
+
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+
+        tr:hover {
+            background-color: #e0e7ff;
+            cursor: pointer;
+        }
+
+        /* Mensagem de vazio */
         .empty-message {
             margin-top: 20px;
             color: #888;
+            font-style: italic;
         }
+
+        /* Botão de voltar */
         a {
             display: inline-block;
-            margin-top: 15px;
-            padding: 10px 15px;
-            background: #007BFF;
+            margin-top: 20px;
+            padding: 12px 18px;
+            background: #2575fc;
             color: white;
             text-decoration: none;
             border-radius: 5px;
+            transition: background 0.3s, transform 0.2s;
         }
+
         a:hover {
-            background: #0056b3;
+            background: #6a11cb;
+            transform: scale(1.05);
+        }
+
+        /* Tooltip */
+        .tooltip {
+            visibility: hidden;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 5px;
+            border-radius: 4px;
+            position: absolute;
+            z-index: 1;
+            font-size: 12px;
+        }
+
+        tr:hover .tooltip {
+            visibility: visible;
         }
     </style>
 </head>
 <body>
+
     <div class="container">
         <h2>Lista de Professores</h2>
+
+        <!-- Condicional de professores -->
         % if professores:
         <table>
             <tr>
@@ -75,7 +126,7 @@
                 <th>Salário</th>
             </tr>
             % for professor in professores:
-            <tr>
+            <tr onclick="highlightRow(this)">
                 <td>{{ professor["matricula"] }}</td>
                 <td>{{ professor["nome"] }}</td>
                 <td>{{ professor["idade"] }}</td>
@@ -87,7 +138,29 @@
         % else:
         <p class="empty-message">Nenhum professor matriculado.</p>
         % end
+
         <a href="/menu">Voltar ao Menu</a>
     </div>
+
+    <script>
+        // Função para destacar a linha clicada
+        function highlightRow(row) {
+            // Remove destaque anterior
+            const rows = document.querySelectorAll("tr");
+            rows.forEach(r => r.style.backgroundColor = "");
+
+            // Destaca a linha selecionada
+            row.style.backgroundColor = "#d1e7ff";
+
+            // Exibe um alerta simples com o nome do professor
+            const nome = row.cells[1]?.textContent;
+            if (nome) {
+                setTimeout(() => {
+                    alert(`Você selecionou o professor: ${nome}`);
+                }, 300);
+            }
+        }
+    </script>
+
 </body>
 </html>

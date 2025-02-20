@@ -5,16 +5,7 @@ class Pessoa(ABC):
     def __init__(self, nome, idade, matricula):                              
         self.nome = nome
         self.idade = idade
-        self.__matricula = matricula            # Atributo privado
-        
-    # Método getter
-    def get_matricula(self):
-        return self._matricula
-    
-    # Método setter
-    def set_matricula(self, nova_matricula):
-        self._matricula = nova_matricula
-        
+        self.matricula = matricula        
 
 class Professor(Pessoa):
     # Método construtor da classe Professor       
@@ -24,7 +15,7 @@ class Professor(Pessoa):
         self.salario = salario
 
     # Método para converter os dados do objeto para um dicionário  
-    def to_dict(self):                           
+    def to_dict(self):                      
         return {
             'matricula': self.matricula,
             'nome': self.nome,
